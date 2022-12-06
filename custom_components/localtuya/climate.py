@@ -18,8 +18,8 @@ from homeassistant.components.climate.const import (
     HVAC_MODE_OFF,
     PRESET_AWAY,
     PRESET_ECO,
-    PRESET_HOME,
-    PRESET_NONE,
+    PRESET_COMFORT,
+    PRESET_ANTIFREEZE,
     SUPPORT_PRESET_MODE,
     SUPPORT_TARGET_TEMPERATURE,
     SUPPORT_TARGET_TEMPERATURE_RANGE,
@@ -101,9 +101,9 @@ HVAC_ACTION_SETS = {
 }
 PRESET_SETS = {
     "Manual/Holiday/Program": {
-        PRESET_AWAY: "Holiday",
-        PRESET_HOME: "Program",
-        PRESET_NONE: "Manual",
+        PRESET_COMFORT: "comfort",
+        PRESET_ECO: "eco",
+        PRESET_ANIFREEZE: "antifreeze",
     },
 }
 
@@ -264,11 +264,7 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
     @property
     def preset_modes(self):
         """Return the list of available presets modes."""
-        if not self._has_presets:
-            return None
         presets = list(self._conf_preset_set)
-        if self._conf_eco_dp:
-            presets.append(PRESET_ECO)
         return presets
 
     @property
@@ -331,10 +327,7 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
 
     async def async_set_preset_mode(self, preset_mode):
         """Set new target preset mode."""
-        if preset_mode == PRESET_ECO:
-            await self._device.set_dp(self._conf_eco_value, self._conf_eco_dp)
-            return
-        await self._device.set_dp(
+            await self._device.set_dp(
             self._conf_preset_set[preset_mode], self._conf_preset_dp
         )
 
@@ -367,12 +360,6 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
             )
 
         if self._has_presets:
-            if (
-                self.has_config(CONF_ECO_DP)
-                and self.dps_conf(CONF_ECO_DP) == self._conf_eco_value
-            ):
-                self._preset_mode = PRESET_ECO
-            else:
                 for preset, value in self._conf_preset_set.items():  # todo remove
                     if self.dps_conf(CONF_PRESET_DP) == value:
                         self._preset_mode = preset
