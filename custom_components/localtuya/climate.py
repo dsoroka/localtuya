@@ -103,7 +103,7 @@ PRESET_SETS = {
     "Manual/Holiday/Program": {
         PRESET_COMFORT: "comfort",
         PRESET_ECO: "eco",
-        PRESET_ANIFREEZE: "antifreeze",
+        PRESET_AWAY: "antifreeze",
     },
 }
 
