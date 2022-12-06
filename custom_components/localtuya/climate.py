@@ -19,7 +19,7 @@ from homeassistant.components.climate.const import (
     PRESET_AWAY,
     PRESET_ECO,
     PRESET_COMFORT,
-    PRESET_ANTIFREEZE,
+    PRESET_AWAY,
     SUPPORT_PRESET_MODE,
     SUPPORT_TARGET_TEMPERATURE,
     SUPPORT_TARGET_TEMPERATURE_RANGE,
@@ -100,7 +100,7 @@ HVAC_ACTION_SETS = {
     },
 }
 PRESET_SETS = {
-    "Manual/Holiday/Program": {
+    "comfort/eco/antifreeze": {
         PRESET_COMFORT: "comfort",
         PRESET_ECO: "eco",
         PRESET_AWAY: "antifreeze",
