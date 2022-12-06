@@ -327,7 +327,7 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
 
     async def async_set_preset_mode(self, preset_mode):
         """Set new target preset mode."""
-            await self._device.set_dp(
+        await self._device.set_dp(
             self._conf_preset_set[preset_mode], self._conf_preset_dp
         )
 
